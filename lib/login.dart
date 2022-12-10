@@ -1,4 +1,5 @@
 import 'package:dokter_app/register.dart';
+import 'package:dokter_app/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:dokter_app/home.dart';
@@ -15,7 +16,7 @@ class _LoginState extends State<Login> {
 
   void login(String username, password) async {
     try {
-      var response = await Dio().get('http://localhost:3000/user');
+      var response = await Dio().get('$BASE_URL/user');
       var panjang_data = response.data.length -1;
       print(response.data.toString());
       print("ini response : " + response.statusCode.toString());

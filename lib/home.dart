@@ -1,4 +1,4 @@
-import 'package:dokter_app/service/umum_service.dart';
+import 'package:dokter_app/service/poli_service.dart';
 import 'package:flutter/material.dart';
 import 'package:dokter_app/tabview/umum.dart' as umum;
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:dokter_app/service/umum_service.dart';
+import 'package:dokter_app/service/poli_service.dart';
 
 class Umum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      child: new Center(
+    return Container(
+      child: Center(
         child: FutureBuilder(
-          future: UmumService.getDataUmum(),
+          future: PoliService.getDataUmum(),
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
