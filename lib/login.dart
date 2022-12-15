@@ -14,6 +14,8 @@ class _LoginState extends State<Login> {
   TextEditingController usn = TextEditingController();
   TextEditingController pwd = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
   void login(String username, password) async {
     try {
       var response = await Dio().get('$BASE_URL/user');
@@ -23,8 +25,12 @@ class _LoginState extends State<Login> {
       if (response.statusCode == 200) {
         bool akunexist = false;
         for (var i = 0; i <= panjang_data; i++) {
-          if (username == response.data[i]['username']
-              && password == response.data[i]['password']) {
+          if (username != response.data[i]['username']
+              && password != response.data[i]['password']) {
+            akunexist = false;
+            print("tidak ada akun");
+            break;
+          }else{
             akunexist = true;
             print("Login success");
             Navigator.push(
@@ -100,12 +106,14 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(height: 25),
-                TextField(
+
+                TextFormField(
                   controller: usn,
                   style: const TextStyle(
                     fontFamily: 'Poppins Light',
                     fontSize: 16,
                   ),
+
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -121,21 +129,30 @@ class _LoginState extends State<Login> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Username is Required!';
+                    }
+                    return null;
+                  },
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 10)),
                 SizedBox(height: 18),
-                TextField(
+                TextFormField(
                   controller: pwd,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
                   ),
+                  obscureText: true,
                   decoration: InputDecoration(
+
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     labelText: "Password",
                     hintText: "Password",
+
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 18),
                     hintStyle: const TextStyle(
@@ -145,6 +162,12 @@ class _LoginState extends State<Login> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Password is Required!';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 15),
                 const Align(

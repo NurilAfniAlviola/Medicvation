@@ -3,6 +3,7 @@ import 'package:dokter_app/onboard.dart';
 import 'package:dokter_app/register.dart';
 import 'package:flutter/material.dart';
 import 'package:dokter_app/shared_pref.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'home.dart';
 
@@ -25,6 +26,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      theme: ThemeData(
+        fontFamily: GoogleFonts.poppins().fontFamily
+      ),
       home: OnBoard(),
     );
   }

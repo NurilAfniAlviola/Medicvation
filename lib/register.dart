@@ -1,7 +1,7 @@
+import 'package:dokter_app/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:dokter_app/login.dart';
-import 'onboard.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -9,19 +9,22 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final _formKey = GlobalKey<FormState>();
+
   var emailtxt = TextEditingController();
   var usntxt = TextEditingController();
   var pwdtxt = TextEditingController();
 
   void register(String email, username, password) async {
+
     try {
-      var response = await Dio().post('http://localhost:3000/user',
+      var response = await Dio().post('$BASE_URL/user',
           data: {"email": email,"username": username, "password": password});
       if (response.statusCode == 201) {
-        print("Account created successfully");
+        //cek
+        print("Login success");
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => Login(),
-        ));
+            builder: (context) => Login()));
       } else {
         print("Registration Failed");
       }
@@ -68,7 +71,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 SizedBox(height: 25),
-                TextField(
+                TextFormField(
                   controller: emailtxt,
                   style: const TextStyle(
                     fontFamily: 'Poppins Light',
@@ -89,11 +92,17 @@ class _RegisterState extends State<Register> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Email is Required!';
+                    }
+                    return null;
+                  },
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 10)),
 
                 SizedBox(height: 25),
-                TextField(
+                TextFormField(
                   controller: usntxt,
                   style: const TextStyle(
                     fontFamily: 'Poppins Light',
@@ -114,11 +123,17 @@ class _RegisterState extends State<Register> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Username is Required!';
+                    }
+                    return null;
+                  },
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 10)),
 
                 SizedBox(height: 18),
-                TextField(
+                TextFormField(
                   controller: pwdtxt,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
@@ -139,12 +154,22 @@ class _RegisterState extends State<Register> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Password is Required!';
+                    }
+                    return null;
+                  },
                 ),
 
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    register(emailtxt.text, usntxt.text, pwdtxt.text);
+                    if(emailtxt.text.isEmpty || usntxt.text.isEmpty || pwdtxt.text.isEmpty){
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('lengkapi form'), duration: Duration(seconds: 3), backgroundColor: Colors.redAccent,));
+                    }else {
+                      register(emailtxt.text, usntxt.text, pwdtxt.text);
+                    }
                   },
                   child: const Text("Register",
                       style: TextStyle(

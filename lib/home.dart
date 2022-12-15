@@ -1,4 +1,3 @@
-import 'package:dokter_app/service/poli_service.dart';
 import 'package:flutter/material.dart';
 import 'package:dokter_app/tabview/umum.dart' as view;
 import 'package:dokter_app/tabview/anak.dart' as anak;
@@ -46,40 +45,6 @@ class _HomeState extends State<Home> {
               saraf.Saraf(),
               gigi.Gigi()
             ],
-          ),
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                const DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Color(0xff2a362a),
-                  ),
-                  child: Text('Ramen Application'),
-                ),
-                ListTile(
-                  leading: Icon(Icons.account_circle),
-                  title: const Text('Profile'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.settings),
-                  title: const Text('Setting'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.info),
-                  title: const Text('About'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
           ),
         ));
   }

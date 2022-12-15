@@ -1,7 +1,8 @@
+import 'package:dokter_app/detailview/book.dart';
 import 'package:flutter/material.dart';
-import 'package:dokter_app/service/poli_service.dart';
+import 'package:dokter_app/viewmodel/poli_service.dart';
 
-import '../detailpoli.dart';
+import '../detailview/detailumum.dart';
 
 class Anak extends StatelessWidget {
   @override
@@ -9,7 +10,7 @@ class Anak extends StatelessWidget {
     return Container(
       child: Center(
         child: FutureBuilder(
-          future: PoliService.getDataUmum(),
+          future: PoliService.getDataAnak(),
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -19,7 +20,7 @@ class Anak extends StatelessWidget {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
                 return Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
@@ -28,32 +29,33 @@ class Anak extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DetailPoli()));
+                                  builder: (context) => Booking()));
                         },
                         title: new Card(
                             child: new Row(
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsets.all(5.0),
                                   child: Image.network(
                                     '${snapshot.data![index].image}',
-                                    width: 100,
+                                    width: 80,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsets.all(5.0),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Padding(
-                                        padding: const EdgeInsets.only(bottom: 8.0),
+                                        padding: const EdgeInsets.only(bottom: 5.0),
                                         child: Text(
                                           '${snapshot.data![index].nama}',
                                           style:
                                           Theme.of(context).textTheme.headline6,
                                         ),
                                       ),
-                                      Text('${snapshot.data![index].hari}')
+                                      Text('${snapshot.data![index].hari}'),
+                                      Text('${snapshot.data![index].jam}')
                                     ],
                                   ),
                                 )
