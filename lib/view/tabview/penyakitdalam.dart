@@ -1,16 +1,16 @@
-import 'package:dokter_app/detailview/book.dart';
+import 'package:dokter_app/view/detailview/book.dart';
 import 'package:flutter/material.dart';
 import 'package:dokter_app/viewmodel/poli_service.dart';
 
 import '../detailview/detailumum.dart';
 
-class Gigi extends StatelessWidget {
+class PenyakitDalam extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
         child: FutureBuilder(
-          future: PoliService.getDataGigi(),
+          future: PoliService.getDataPenyakitdalam(),
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:dokter_app/tabview/umum.dart' as view;
-import 'package:dokter_app/tabview/anak.dart' as anak;
-import 'package:dokter_app/tabview/gigi.dart' as gigi;
-import 'package:dokter_app/tabview/kandungan.dart' as kandungan;
-import 'package:dokter_app/tabview/saraf.dart' as saraf;
-import 'package:dokter_app/tabview/penyakitdalam.dart' as pd;
+import 'package:dokter_app/view/tabview/umum.dart' as view;
+import 'package:dokter_app/view/tabview/anak.dart' as anak;
+import 'package:dokter_app/view/tabview/gigi.dart' as gigi;
+import 'package:dokter_app/view/tabview/kandungan.dart' as kandungan;
+import 'package:dokter_app/view/tabview/saraf.dart' as saraf;
+import 'package:dokter_app/view/tabview/penyakitdalam.dart' as pd;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
   @override
   State<Home> createState() => _HomeState();
 }
@@ -22,7 +21,7 @@ class _HomeState extends State<Home> {
           appBar: AppBar(
             centerTitle: true,
             backgroundColor: Color(0xff2a362a),
-            title: Image.asset("assets/img/logo.png"),
+            title: Image.asset("assets/img/logo.png", height: 50),
             bottom: const TabBar(
               isScrollable: true,
               tabs: <Widget>[
@@ -32,9 +31,7 @@ class _HomeState extends State<Home> {
                 Tab(child: Text('Saraf')),
                 Tab(child: Text('Kandungan')),
                 Tab(child: Text('Gigi')),
-              ],
-            ),
-          ),
+              ])),
           body: TabBarView(
             children: <Widget>[
               //kemudian panggil halaman sesuai tab yang sudah dibuat

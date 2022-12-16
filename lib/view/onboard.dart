@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'register.dart';
 
 class OnBoard extends StatefulWidget {
   OnBoard({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class _OnBoardState extends State<OnBoard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.fromLTRB(15, 0, 15, 60),
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 23),
         width: double.infinity,
         decoration: BoxDecoration(
           color: Color(0xff2a362a),
@@ -34,31 +33,20 @@ class _OnBoardState extends State<OnBoard> {
                     'Choose the doctor of your choice\n according to your needs',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: Color(0xfff0f0f0),
                     ),
                   ),
 
-                  Padding(padding: EdgeInsets.only(top: 15, bottom: 5)),
+                  Padding(padding: EdgeInsets.only(top: 15, bottom: 50)),
                   Image.asset(
                     'assets/img/amico.png',
+                    height: 250,
                     fit: BoxFit.cover,
                   ),
 
-                  Padding(padding: EdgeInsets.only(bottom: 20)),
-                  Text(
-                    'Registration for doctor \nreservations is easier and faster \nwith the help of Medivication',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      height: 1.2125,
-                      color: Color(0xfff0f0f0),
-                    ),
-                  ),
-
-                  Padding(padding: EdgeInsets.only(bottom: 20)),
+                  Padding(padding: EdgeInsets.only(bottom: 100)),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(

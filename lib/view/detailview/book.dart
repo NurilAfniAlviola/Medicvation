@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dokter_app/utils.dart';
+import 'package:dokter_app/view/home.dart';
 import 'package:flutter/material.dart';
 import 'package:ms_undraw/ms_undraw.dart';
 
@@ -45,10 +46,23 @@ class _BookingState extends State<Booking> {
               ),
               actions: <Widget>[
                 ElevatedButton(
-                  child: const Text('Done'),
+                  child: const Text(
+                      'Done',
+                          style: TextStyle(
+                              fontFamily: 'Poppins Bold',
+                              fontSize: 22,
+                              color: Color.fromARGB(255, 252, 252, 252))),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()));
                   },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff6cab36),
+                      minimumSize: const Size.fromHeight(50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      )),
                 ),
               ],
             )
@@ -70,7 +84,7 @@ class _BookingState extends State<Booking> {
         centerTitle: true,
         title: Image.asset(
             "assets/img/logo.png",
-          width: 150,
+          width: 210,
         )
       ),
 
@@ -280,15 +294,14 @@ class _BookingState extends State<Booking> {
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-
-                    if (nama_pasienctrl.text.isEmpty || usiactrl.text.isEmpty || polictrl.text.isEmpty || dokterctrl.text.isEmpty || tanggalctrl.text.isEmpty
+                    if (nama_pasienctrl.text.isEmpty || usiactrl.text.isEmpty || polictrl.text.isEmpty ||
+                        dokterctrl.text.isEmpty || tanggalctrl.text.isEmpty
                         || jamctrl.text.isEmpty || teleponctrl.text.isEmpty) {
                       final snackBar = SnackBar(
                         duration: const Duration(seconds: 5),
-                        content: Text("Harap isi terlebih dahulu"),
+                        content: Text("Please complete the form!!!"),
                         backgroundColor: Colors.red,
                       );
-
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       return;
                     }

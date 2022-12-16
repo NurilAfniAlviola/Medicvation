@@ -1,70 +1,35 @@
-import 'package:dokter_app/register.dart';
 import 'package:dokter_app/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:dokter_app/home.dart';
-import 'package:dokter_app/onboard.dart';
+import 'package:dokter_app/view/login.dart';
 
-class Login extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
-  TextEditingController usn = TextEditingController();
-  TextEditingController pwd = TextEditingController();
-
+class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
-  void login(String username, password) async {
-    try {
-      var response = await Dio().get('$BASE_URL/user');
-      var panjang_data = response.data.length -1;
-      print(response.data.toString());
-      print("ini response : " + response.statusCode.toString());
-      if (response.statusCode == 200) {
-        bool akunexist = false;
-        for (var i = 0; i <= panjang_data; i++) {
-          if (username != response.data[i]['username']
-              && password != response.data[i]['password']) {
-            akunexist = false;
-            print("tidak ada akun");
-            break;
-          }else{
-            akunexist = true;
-            print("Login success");
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Home()));
-            break;
-          }
-        }
+  var emailtxt = TextEditingController();
+  var usntxt = TextEditingController();
+  var pwdtxt = TextEditingController();
 
-        if(akunexist == false){
-          final snackBar = SnackBar(
-            backgroundColor: Colors.redAccent,
-            content: Text(
-              'Login failed',
-              style: TextStyle(
-                fontFamily: 'Poppins-Regular',
-                color: Colors.white,
-              ),
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
+  void register(String email, username, password) async {
+
+    try {
+      var response = await Dio().post('$BASE_URL/user',
+          data: {"email": email,"username": username, "password": password});
+      if (response.statusCode == 201) {
+        //cek
+        print("Login success");
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => Login()));
+      } else {
+        print("Registration Failed");
       }
     } catch (e) {
-      final snackBar = SnackBar(
-        backgroundColor: Colors.tealAccent,
-        content: Text(
-          e.toString(),
-          style: TextStyle(
-            fontFamily: 'Poppins-Regular',
-            color: Colors.white,
-          ),
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      print(e);
     }
   }
 
@@ -91,7 +56,7 @@ class _LoginState extends State<Login> {
                   child: Column(
                     children: const <Widget>[
                       Text(
-                        'Login Account',
+                        'Create Account',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black87,
@@ -106,14 +71,37 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(height: 25),
-
                 TextFormField(
-                  controller: usn,
+                  controller: emailtxt,
                   style: const TextStyle(
                     fontFamily: 'Poppins Light',
                     fontSize: 16,
                   ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    labelText: "Email",
+                    hintText: "Email",
+                    contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                    hintStyle: const TextStyle(
+                      fontFamily: 'Poppins Light',
+                      fontSize: 16,
+                      color: Color(0x38000000),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.only(bottom: 10)),
 
+                SizedBox(height: 25),
+                TextFormField(
+                  controller: usntxt,
+                  style: const TextStyle(
+                    fontFamily: 'Poppins Light',
+                    fontSize: 16,
+                  ),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -129,30 +117,22 @@ class _LoginState extends State<Login> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Username is Required!';
-                    }
-                    return null;
-                  },
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 10)),
+
                 SizedBox(height: 18),
                 TextFormField(
-                  controller: pwd,
+                  controller: pwdtxt,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
                   ),
-                  obscureText: true,
                   decoration: InputDecoration(
-
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     labelText: "Password",
                     hintText: "Password",
-
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 18),
                     hintStyle: const TextStyle(
@@ -162,31 +142,20 @@ class _LoginState extends State<Login> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Password is Required!';
-                    }
-                    return null;
-                  },
                 ),
-                const SizedBox(height: 15),
-                const Align(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    "Forgot password?",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 70)),
+
+                const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    login(usn.text, pwd.text);
+                    if(emailtxt.text.isEmpty || usntxt.text.isEmpty || pwdtxt.text.isEmpty){
+                      ScaffoldMessenger.of(context).showSnackBar
+                        (SnackBar(content: Text('Please complete the form!!!'),
+                        duration: Duration(seconds: 3), backgroundColor: Colors.redAccent,));
+                    }else {
+                      register(emailtxt.text, usntxt.text, pwdtxt.text);
+                    }
                   },
-                  child: const Text("LOGIN",
+                  child: const Text("Register",
                       style: TextStyle(
                         fontFamily: 'Poppins Bold',
                         fontSize: 18,
@@ -202,7 +171,7 @@ class _LoginState extends State<Login> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account?",
+                    const Text("Already have an account?",
                         style: TextStyle(
                           fontFamily: 'Poppins Light',
                           fontSize: 15,
@@ -213,10 +182,10 @@ class _LoginState extends State<Login> {
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => Register()),
+                          MaterialPageRoute(builder: (context) => Login()),
                         );
                       },
-                      child: const Text("Sign up",
+                      child: const Text("Sign In",
                           style: TextStyle(
                             fontFamily: 'Poppins Light',
                             fontSize: 15,

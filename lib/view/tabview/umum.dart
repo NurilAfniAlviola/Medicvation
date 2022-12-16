@@ -1,8 +1,6 @@
-import 'package:dokter_app/detailview/book.dart';
+import 'package:dokter_app/view/detailview/book.dart';
 import 'package:flutter/material.dart';
 import 'package:dokter_app/viewmodel/poli_service.dart';
-
-import '../detailview/detailumum.dart';
 
 class Umum extends StatelessWidget {
   @override
